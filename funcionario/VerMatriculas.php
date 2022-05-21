@@ -2,7 +2,7 @@
 session_start();
 
 require('../conexion/conexion.php');
-$busqueda = $base_de_datos->query("SELECT * FROM detallematricula INNER JOIN matricula ON matricula.idMatri=detallematricula.idMatri INNER JOIN materias ON materias.idMa=detallematricula.idMa INNER JOIN estudiantes ON estudiantes.idEs =matricula.idEs INNER JOIN usuarios ON usuarios.idUser=matricula.idUser INNER JOIN grados ON grados.idGrado=matricula.idGrado");
+$busqueda = $base_de_datos->query("SELECT * FROM matricula,estudiantes,grados,usuarios Where estudiantes.idEs=matricula.idEs and matricula.idUser = usuarios.idUser and matricula.idGrado=grados.idGrado");
 /*Almacenamos el resultado de fetchAll en una variable*/
 $arrDatos = $busqueda->fetchAll(PDO::FETCH_ASSOC);
 
@@ -33,8 +33,6 @@ $arrDatos = $busqueda->fetchAll(PDO::FETCH_ASSOC);
                 <th class="bg-primary" scope="col">Estudiante</th>
                 <th class="bg-primary" scope="col">Funcionario</th>
                 <th class="bg-primary" scope="col">Grado</th>
-                <th class="bg-primary" scope="col">Materias</th>
-                <th class="bg-primary" scope="col">Fecha</th>
                 <th class="bg-primary" scope="col">Action</th>
 
 
@@ -51,12 +49,11 @@ foreach ($arrDatos as $muestra) {
 
 ?>
     <tr>
-        <td> <?php echo $muestra['idDM'] ?> </td>
+        <td> <?php echo $muestra['idMatri'] ?> </td>
         <td> <?php echo $muestra['Enombre'] ?> <?php echo $muestra['Eapellido'] ?> </td>
         <td> <?php echo $muestra['nombre'] ?> <?php echo $muestra['apellido'] ?> </td>
         <td> <?php echo $muestra['grado'] ?> </td>
-        <td> <?php echo $muestra['materia'] ?> </td>
-        <td> <?php echo $muestra['fecha'] ?> </td>
+
         <td>
             <a href="modal.php?idMatri=<?php echo $muestra['idMatri'] ?> " class="btn btn-primary">
                 ver
